@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eonix_ | Developer & Systems Specialist</title>
+    <title>Eonix_ | Developer Dashboard & Systems</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
 
@@ -31,6 +31,9 @@
             --font-code: 'Fira Code', monospace;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
 
+            --sidebar-width-collapsed: 70px;
+            --sidebar-width-expanded: 240px;
+
             --radius-sm: 6px;
             --radius-md: 16px;
             --radius-lg: 22px;
@@ -48,6 +51,8 @@
             font-family: var(--font-sans);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
             background-image: 
                 radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.25) 0%, transparent 50%),
                 linear-gradient(to right, rgba(56, 18, 32, 0.2) 1px, transparent 1px),
@@ -55,15 +60,174 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
+        /* -------------------------------------------------------------
+           SIDEBAR COMPONENT (ESTILO ACETERNITY UI)
+           ------------------------------------------------------------- */
+        .sidebar {
+            width: var(--sidebar-width-collapsed);
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            background-color: rgba(18, 8, 13, 0.95);
+            border-right: 1px solid var(--bg-card-border);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 12px;
+            overflow: hidden;
+        }
+
+        .sidebar:hover, .sidebar.expanded {
+            width: var(--sidebar-width-expanded);
+        }
+
+        /* Sidebar Header & Brand */
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            padding: 8px 4px;
+        }
+
+        .brand-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--ruby-primary), #881337);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+        }
+
+        .brand-text {
+            font-family: var(--font-pixel);
+            font-size: 14px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar:hover .brand-text, .sidebar.expanded .brand-text {
+            opacity: 1;
+        }
+
+        /* Sidebar Nav Links */
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 40px;
+            flex-grow: 1;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-code);
+            font-size: 13px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar-link svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            stroke: var(--text-secondary);
+            transition: stroke 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background-color: rgba(225, 29, 72, 0.15);
+            color: var(--ruby-glow);
+        }
+
+        .sidebar-link:hover svg {
+            stroke: var(--ruby-glow);
+        }
+
+        .sidebar-label {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar:hover .sidebar-label, .sidebar.expanded .sidebar-label {
+            opacity: 1;
+        }
+
+        /* Sidebar Profile Footer */
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 4px;
+            border-top: 1px solid rgba(225, 29, 72, 0.15);
+            padding-top: 16px;
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--ruby-primary);
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar:hover .profile-info, .sidebar.expanded .profile-info {
+            opacity: 1;
+        }
+
+        .profile-name {
+            font-family: var(--font-code);
+            font-size: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .profile-role {
+            font-family: var(--font-code);
+            font-size: 10px;
+            color: var(--text-muted);
         }
 
         /* -------------------------------------------------------------
-           FLIP WORDS ANIMATION (ESTILO ACETERNITY UI)
+           MAIN CONTENT AREA (ADAPTADO AL SIDEBAR)
            ------------------------------------------------------------- */
+        .main-wrapper {
+            margin-left: var(--sidebar-width-collapsed);
+            flex-grow: 1;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: calc(100% - var(--sidebar-width-collapsed));
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* FLIP WORDS ANIMATION */
         .flip-words-container {
             display: inline-block;
             position: relative;
@@ -81,8 +245,7 @@
             filter: blur(8px);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 0; top: 0;
             white-space: nowrap;
         }
 
@@ -100,12 +263,8 @@
             position: absolute;
         }
 
-        /* -------------------------------------------------------------
-           BACKGROUND GRADIENT + COMET CARD 3D INTERACTION
-           ------------------------------------------------------------- */
-        .comet-card-wrapper {
-            perspective: 1000px;
-        }
+        /* BACKGROUND GRADIENT & 3D COMET CARD */
+        .comet-card-wrapper { perspective: 1000px; }
 
         .gradient-card-wrapper {
             position: relative;
@@ -121,7 +280,6 @@
             overflow: hidden;
         }
 
-        /* Glare effect / Ráfaga cometa en la tarjeta */
         .gradient-card-wrapper::after {
             content: '';
             position: absolute;
@@ -134,9 +292,7 @@
             z-index: 5;
         }
 
-        .gradient-card-wrapper:hover::after {
-            opacity: 1;
-        }
+        .gradient-card-wrapper:hover::after { opacity: 1; }
 
         @keyframes gradientBorder {
             0% { background-position: 0% 50%; }
@@ -154,67 +310,17 @@
             justify-content: space-between;
             position: relative;
             z-index: 2;
-            transform: translateZ(20px); /* Efecto elevación 3D del contenido */
+            transform: translateZ(20px);
         }
 
-        /* -------------------------------------------------------------
-           NAVEGACIÓN
-           ------------------------------------------------------------- */
-        header {
-            padding: 24px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(225, 29, 72, 0.15);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-family: var(--font-code);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--ruby-glow);
-        }
-
-        .lang-switch {
-            font-family: var(--font-code);
-            font-size: 12px;
-            padding: 6px 14px;
-            background: var(--bg-surface);
-            border: 1px solid var(--bg-card-border);
-            border-radius: var(--radius-sm);
-        }
-
-        /* -------------------------------------------------------------
-           HERO SECTION
-           ------------------------------------------------------------- */
+        /* HERO SECTION */
         .hero {
             text-align: center;
-            padding: 90px 0 60px;
+            padding: 100px 0 60px;
         }
 
         .avatar-box {
-            width: 110px;
-            height: 110px;
+            width: 110px; height: 110px;
             margin: 0 auto 28px;
             border-radius: var(--radius-md);
             background: linear-gradient(135deg, #2a0a16, #120308);
@@ -359,10 +465,8 @@
         }
 
         .terminal-header {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            display: flex; gap: 8px;
+            margin-bottom: 16px; padding-bottom: 12px;
             border-bottom: 1px solid rgba(225, 29, 72, 0.15);
         }
 
@@ -377,15 +481,12 @@
         .terminal-val { color: var(--text-primary); }
 
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--status-green);
+            display: inline-flex; align-items: center;
+            gap: 6px; color: var(--status-green);
         }
 
         .status-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
+            width: 8px; height: 8px; border-radius: 50%;
             background-color: var(--status-green);
             box-shadow: 0 0 8px var(--status-green);
         }
@@ -430,30 +531,23 @@
         }
 
         .project-tech-stack {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            display: flex; gap: 8px; flex-wrap: wrap;
             margin-bottom: 16px;
         }
 
         .mini-badge {
             font-family: var(--font-code);
-            font-size: 10px;
-            padding: 3px 8px;
+            font-size: 10px; padding: 3px 8px;
             background: rgba(225, 29, 72, 0.1);
             border: 1px solid var(--bg-card-border);
-            border-radius: 4px;
-            color: var(--text-secondary);
+            border-radius: 4px; color: var(--text-secondary);
         }
 
         .project-link {
             font-family: var(--font-code);
-            font-size: 12px;
-            color: var(--ruby-glow);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 12px; color: var(--ruby-glow);
+            text-decoration: none; display: inline-flex;
+            align-items: center; gap: 6px;
         }
 
         /* NETWORKS */
@@ -468,27 +562,23 @@
             border: 1px solid var(--bg-card-border);
             padding: 16px 20px;
             border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             justify-content: space-between;
         }
 
         .network-info h4 {
             font-family: var(--font-pixel);
-            font-size: 13px;
-            margin-bottom: 4px;
+            font-size: 13px; margin-bottom: 4px;
         }
 
         .network-info p {
             font-family: var(--font-code);
-            font-size: 11px;
-            color: var(--text-muted);
+            font-size: 11px; color: var(--text-muted);
         }
 
         .ping-badge {
             font-family: var(--font-code);
-            font-size: 11px;
-            padding: 4px 10px;
+            font-size: 11px; padding: 4px 10px;
             border-radius: var(--radius-sm);
         }
 
@@ -513,240 +603,271 @@
 
         footer h2 {
             font-family: var(--font-pixel);
-            font-size: 26px;
-            margin-bottom: 16px;
+            font-size: 26px; margin-bottom: 16px;
         }
 
         footer p { color: var(--text-secondary); margin-bottom: 32px; }
 
         .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 40px;
+            display: flex; justify-content: center;
+            gap: 16px; margin-bottom: 40px;
         }
 
         .copyright {
             font-family: var(--font-code);
-            font-size: 11px;
-            color: var(--text-muted);
+            font-size: 11px; color: var(--text-muted);
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV -->
-    <header>
-        <div class="container">
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#about">Sobre Mí</a></li>
-                    <li><a href="#projects">Proyectos</a></li>
-                    <li><a href="#networks">Redes</a></li>
-                    <li><a href="#contact">Contacto</a></li>
-                </ul>
-                <div class="lang-switch">ES / EN</div>
-            </nav>
-        </div>
-    </header>
+    <!-- SIDEBAR COLAPSABLE (ACETERNITY STYLE) -->
+    <aside class="sidebar" id="app-sidebar">
+        <div>
+            <a href="#" class="sidebar-brand">
+                <div class="brand-icon-box">E</div>
+                <span class="brand-text">EONIX_</span>
+            </a>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container">
-            <div class="avatar-box">👾</div>
-            
-            <div class="subtitle-tag">
-                Especialista en 
-                <span class="flip-words-container" id="hero-flip-words"></span>
-            </div>
+            <div class="sidebar-menu">
+                <a href="#about" class="sidebar-link">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    <span class="sidebar-label">Sobre Mí</span>
+                </a>
 
-            <h1>EONIX_</h1>
-            <p>Desarrollo de Plugins, Cores, Infraestructura de Redes y Bots de Discord a medida para servidores de alto rendimiento.</p>
-            
-            <div class="cta-group">
-                <a href="#projects" class="btn btn-primary">Ver Trabajos</a>
-                <a href="#contact" class="btn btn-secondary">Contactar</a>
-            </div>
+                <a href="#projects" class="sidebar-link">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                    </svg>
+                    <span class="sidebar-label">Proyectos</span>
+                </a>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">60+</div>
-                    <div class="stat-label">Servidores</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Plugins Custom</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label">Años Exp.</div>
-                </div>
+                <a href="#networks" class="sidebar-link">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 003 3h7.5a3 3 0 003-3m-13.5 0a3 3 0 01-3-3m16.5 6a3 3 0 003-3m-3 3a3 3 0 01-3-3m3 3h-13.5" />
+                    </svg>
+                    <span class="sidebar-label">Redes</span>
+                </a>
+
+                <a href="#contact" class="sidebar-link">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                    <span class="sidebar-label">Contacto</span>
+                </a>
             </div>
         </div>
-    </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">01 /</span>
-                <h2 class="section-title">Sobre Mí</h2>
+        <div class="sidebar-profile">
+            <img src="https://assets.aceternity.com/manu.png" alt="Avatar Eonix" class="profile-avatar">
+            <div class="profile-info">
+                <span class="profile-name">Eonix_</span>
+                <span class="profile-role">Systems Dev</span>
             </div>
-            
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>Soy <strong>Eonix_</strong> — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.</p>
-                    <p style="margin-top: 12px;">Enfocado en la estabilidad de red, alto TPS y lógica de juego fluida para comunidades masivas en LATAM e Hispanoamérica.</p>
-                    
-                    <div class="tech-tags">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Paper / Spigot</span>
-                        <span class="tech-tag">Velocity</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">MySQL / Redis</span>
+        </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="main-wrapper">
+        
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container">
+                <div class="avatar-box">👾</div>
+                
+                <div class="subtitle-tag">
+                    Especialista en 
+                    <span class="flip-words-container" id="hero-flip-words"></span>
+                </div>
+
+                <h1>EONIX_</h1>
+                <p>Desarrollo de Plugins, Cores, Infraestructura de Redes y Bots de Discord a medida para servidores de alto rendimiento.</p>
+                
+                <div class="cta-group">
+                    <a href="#projects" class="btn btn-primary">Ver Trabajos</a>
+                    <a href="#contact" class="btn btn-secondary">Contactar</a>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">60+</div>
+                        <div class="stat-label">Servidores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Plugins Custom</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Años Exp.</div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="terminal-box">
-                    <div class="terminal-header">
-                        <div class="dot dot-red"></div>
-                        <div class="dot dot-yellow"></div>
-                        <div class="dot dot-green"></div>
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">01 /</span>
+                    <h2 class="section-title">Sobre Mí</h2>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>Soy <strong>Eonix_</strong> — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.</p>
+                        <p style="margin-top: 12px;">Enfocado en la estabilidad de red, alto TPS y lógica de juego fluida para comunidades masivas en LATAM e Hispanoamérica.</p>
+                        
+                        <div class="tech-tags">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Paper / Spigot</span>
+                            <span class="tech-tag">Velocity</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">MySQL / Redis</span>
+                        </div>
                     </div>
-                    <div class="terminal-prompt">> system.getProfile()</div>
-                    <div class="terminal-line"><span class="terminal-key">name</span><span class="terminal-val">: Eonix_</span></div>
-                    <div class="terminal-line"><span class="terminal-key">role</span><span class="terminal-val">: Full-Stack & MC Dev</span></div>
-                    <div class="terminal-line"><span class="terminal-key">stack</span><span class="terminal-val">: Java • Node • SQL • Redis</span></div>
-                    <div class="terminal-line"><span class="terminal-key">status</span><span class="terminal-val"><span class="status-badge"><span class="status-dot"></span> Disponible para encargos</span></span></div>
+
+                    <div class="terminal-box">
+                        <div class="terminal-header">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="terminal-prompt">> system.getProfile()</div>
+                        <div class="terminal-line"><span class="terminal-key">name</span><span class="terminal-val">: Eonix_</span></div>
+                        <div class="terminal-line"><span class="terminal-key">role</span><span class="terminal-val">: Full-Stack & MC Dev</span></div>
+                        <div class="terminal-line"><span class="terminal-key">stack</span><span class="terminal-val">: Java • Node • SQL • Redis</span></div>
+                        <div class="terminal-line"><span class="terminal-key">status</span><span class="terminal-val"><span class="status-badge"><span class="status-dot"></span> Disponible para encargos</span></span></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- PROJECTS SECTION WITH GRADIENT & 3D COMET CARD INTERACTION -->
-    <section id="projects">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">02 /</span>
-                <h2 class="section-title">Proyectos</h2>
-            </div>
+        <!-- PROJECTS SECTION WITH GRADIENT & 3D COMET CARD INTERACTION -->
+        <section id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">02 /</span>
+                    <h2 class="section-title">Proyectos</h2>
+                </div>
 
-            <div class="projects-grid">
-                <!-- Project 1 with Gradient + 3D Comet Effect -->
-                <div class="comet-card-wrapper">
-                    <div class="gradient-card-wrapper">
-                        <div class="gradient-card-inner">
-                            <div>
-                                <div class="project-tag-cat">Economía & Tienda</div>
-                                <h3 class="project-title">aCore Economy</h3>
-                                <p class="project-desc">Sistema de economía global multiseridor respaldado por Redis y MySQL con sincronización instantánea.</p>
-                                <div class="project-tech-stack">
-                                    <span class="mini-badge">Java</span>
-                                    <span class="mini-badge">Paper</span>
-                                    <span class="mini-badge">Redis</span>
+                <div class="projects-grid">
+                    <div class="comet-card-wrapper">
+                        <div class="gradient-card-wrapper">
+                            <div class="gradient-card-inner">
+                                <div>
+                                    <div class="project-tag-cat">Economía & Tienda</div>
+                                    <h3 class="project-title">aCore Economy</h3>
+                                    <p class="project-desc">Sistema de economía global multiseridor respaldado por Redis y MySQL con sincronización instantánea.</p>
+                                    <div class="project-tech-stack">
+                                        <span class="mini-badge">Java</span>
+                                        <span class="mini-badge">Paper</span>
+                                        <span class="mini-badge">Redis</span>
+                                    </div>
                                 </div>
+                                <a href="#" class="project-link">Ver detalles &rarr;</a>
                             </div>
-                            <a href="#" class="project-link">Ver detalles &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="comet-card-wrapper">
+                        <div class="gradient-card-wrapper">
+                            <div class="gradient-card-inner">
+                                <div>
+                                    <div class="project-tag-cat">Bots & Integración</div>
+                                    <h3 class="project-title">Discord Sync Bot</h3>
+                                    <p class="project-desc">Sistema de verificación de usuarios, contador de invitaciones y vinculación de rangos automáticos.</p>
+                                    <div class="project-tech-stack">
+                                        <span class="mini-badge">Node.js</span>
+                                        <span class="mini-badge">Discord.js</span>
+                                        <span class="mini-badge">REST API</span>
+                                    </div>
+                                </div>
+                                <a href="#" class="project-link">Ver detalles &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comet-card-wrapper">
+                        <div class="gradient-card-wrapper">
+                            <div class="gradient-card-inner">
+                                <div>
+                                    <div class="project-tag-cat">Seguridad & Chat</div>
+                                    <h3 class="project-title">aGuard AntiSpam</h3>
+                                    <p class="project-desc">Filtro inteligente de chat con detección de patrones mediante Expresiones Regulares y mitigación de flood.</p>
+                                    <div class="project-tech-stack">
+                                        <span class="mini-badge">Java</span>
+                                        <span class="mini-badge">Regex</span>
+                                        <span class="mini-badge">Velocity</span>
+                                    </div>
+                                </div>
+                                <a href="#" class="project-link">Ver detalles &rarr;</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Project 2 with Gradient + 3D Comet Effect -->
-                <div class="comet-card-wrapper">
-                    <div class="gradient-card-wrapper">
-                        <div class="gradient-card-inner">
-                            <div>
-                                <div class="project-tag-cat">Bots & Integración</div>
-                                <h3 class="project-title">Discord Sync Bot</h3>
-                                <p class="project-desc">Sistema de verificación de usuarios, contador de invitaciones y vinculación de rangos automáticos.</p>
-                                <div class="project-tech-stack">
-                                    <span class="mini-badge">Node.js</span>
-                                    <span class="mini-badge">Discord.js</span>
-                                    <span class="mini-badge">REST API</span>
-                                </div>
-                            </div>
-                            <a href="#" class="project-link">Ver detalles &rarr;</a>
+        <!-- NETWORKS / SERVERS SECTION -->
+        <section id="networks">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">03 /</span>
+                    <h2 class="section-title">Redes Soportadas</h2>
+                </div>
+
+                <div class="networks-grid">
+                    <div class="network-card">
+                        <div class="network-info">
+                            <h4>Aetdra Network</h4>
+                            <p>play.aetdramc.net</p>
                         </div>
+                        <span class="ping-badge ping-online">● ONLINE</span>
                     </div>
-                </div>
 
-                <!-- Project 3 with Gradient + 3D Comet Effect -->
-                <div class="comet-card-wrapper">
-                    <div class="gradient-card-wrapper">
-                        <div class="gradient-card-inner">
-                            <div>
-                                <div class="project-tag-cat">Seguridad & Chat</div>
-                                <h3 class="project-title">aGuard AntiSpam</h3>
-                                <p class="project-desc">Filtro inteligente de chat con detección de patrones mediante Expresiones Regulares y mitigación de flood.</p>
-                                <div class="project-tech-stack">
-                                    <span class="mini-badge">Java</span>
-                                    <span class="mini-badge">Regex</span>
-                                    <span class="mini-badge">Velocity</span>
-                                </div>
-                            </div>
-                            <a href="#" class="project-link">Ver detalles &rarr;</a>
+                    <div class="network-card">
+                        <div class="network-info">
+                            <h4>ClarityMC</h4>
+                            <p>play.claritymc.net</p>
                         </div>
+                        <span class="ping-badge ping-online">● ONLINE</span>
+                    </div>
+
+                    <div class="network-card">
+                        <div class="network-info">
+                            <h4>Aetdra Survival</h4>
+                            <p>survival.aetdramc.net</p>
+                        </div>
+                        <span class="ping-badge ping-offline">○ OFFLINE</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- NETWORKS / SERVERS SECTION -->
-    <section id="networks">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">03 /</span>
-                <h2 class="section-title">Redes Soportadas</h2>
-            </div>
+        <!-- FOOTER / CONTACT -->
+        <footer id="contact">
+            <div class="container">
+                <span class="section-number">04 / CONTACTO</span>
+                <h2 style="margin-top: 10px;">¿Tienes un proyecto?</h2>
+                <p>Desarrollo de plugins, optimización de infraestructura o bots personalizados. Conversemos.</p>
 
-            <div class="networks-grid">
-                <div class="network-card">
-                    <div class="network-info">
-                        <h4>Aetdra Network</h4>
-                        <p>play.aetdramc.net</p>
-                    </div>
-                    <span class="ping-badge ping-online">● ONLINE</span>
+                <div class="footer-socials">
+                    <a href="#" class="btn btn-primary">Discord</a>
+                    <a href="#" class="btn btn-secondary">GitHub</a>
+                    <a href="#" class="btn btn-secondary">Email</a>
                 </div>
 
-                <div class="network-card">
-                    <div class="network-info">
-                        <h4>ClarityMC</h4>
-                        <p>play.claritymc.net</p>
-                    </div>
-                    <span class="ping-badge ping-online">● ONLINE</span>
-                </div>
-
-                <div class="network-card">
-                    <div class="network-info">
-                        <h4>Aetdra Survival</h4>
-                        <p>survival.aetdramc.net</p>
-                    </div>
-                    <span class="ping-badge ping-offline">○ OFFLINE</span>
-                </div>
+                <p class="copyright">© 2026 Eonix_. Todos los derechos reservados.</p>
             </div>
-        </div>
-    </section>
+        </footer>
 
-    <!-- FOOTER / CONTACT -->
-    <footer id="contact">
-        <div class="container">
-            <span class="section-number">04 / CONTACTO</span>
-            <h2 style="margin-top: 10px;">¿Tienes un proyecto?</h2>
-            <p>Desarrollo de plugins, optimización de infraestructura o bots personalizados. Conversemos.</p>
+    </div>
 
-            <div class="footer-socials">
-                <a href="#" class="btn btn-primary">Discord</a>
-                <a href="#" class="btn btn-secondary">GitHub</a>
-                <a href="#" class="btn btn-secondary">Email</a>
-            </div>
-
-            <p class="copyright">© 2026 Eonix_. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <!-- SCRIPTS INTERACTIVOS: FLIP WORDS & COMET 3D CARD -->
+    <!-- SCRIPTS INTERACTIVOS -->
     <script>
         // --- 1. FLIP WORDS ANIMATION ---
         function createFlipWords(elementId, words, intervalDuration = 2200) {
@@ -793,14 +914,12 @@
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
 
-                    // Rotación suave en X y Y
                     const rotateX = ((y - centerY) / centerY) * -12;
                     const rotateY = ((x - centerX) / centerX) * 12;
 
                     card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                     card.style.boxShadow = `0 15px 35px rgba(225, 29, 72, 0.4)`;
 
-                    // Actualizar posición del destello de cometa
                     card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
                     card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
                 });
