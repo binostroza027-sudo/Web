@@ -101,8 +101,12 @@
         }
 
         /* -------------------------------------------------------------
-           COMPONENTE BACKGROUND GRADIENT
+           BACKGROUND GRADIENT + COMET CARD 3D INTERACTION
            ------------------------------------------------------------- */
+        .comet-card-wrapper {
+            perspective: 1000px;
+        }
+
         .gradient-card-wrapper {
             position: relative;
             border-radius: var(--radius-lg);
@@ -110,7 +114,28 @@
             background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
             background-size: 300% 300%;
             animation: gradientBorder 6s ease infinite;
-            box-shadow: 0 10px 30px rgba(225, 29, 72, 0.25);
+            box-shadow: 0 10px 30px rgba(225, 29, 72, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.4, 1), box-shadow 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Glare effect / Ráfaga cometa en la tarjeta */
+        .gradient-card-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: var(--radius-lg);
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .gradient-card-wrapper:hover::after {
+            opacity: 1;
         }
 
         @keyframes gradientBorder {
@@ -127,6 +152,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            z-index: 2;
+            transform: translateZ(20px); /* Efecto elevación 3D del contenido */
         }
 
         /* -------------------------------------------------------------
@@ -527,12 +555,9 @@
         <div class="container">
             <div class="avatar-box">👾</div>
             
-            <!-- SUBTÍTULO CON FLIPPING WORDS ANIMATION -->
             <div class="subtitle-tag">
                 Especialista en 
-                <span class="flip-words-container" id="hero-flip-words">
-                    <!-- Las palabras rotarán aquí vía JS -->
-                </span>
+                <span class="flip-words-container" id="hero-flip-words"></span>
             </div>
 
             <h1>EONIX_</h1>
@@ -599,7 +624,7 @@
         </div>
     </section>
 
-    <!-- PROJECTS SECTION WITH BACKGROUND GRADIENT -->
+    <!-- PROJECTS SECTION WITH GRADIENT & 3D COMET CARD INTERACTION -->
     <section id="projects">
         <div class="container">
             <div class="section-header">
@@ -608,54 +633,60 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="gradient-card-wrapper">
-                    <div class="gradient-card-inner">
-                        <div>
-                            <div class="project-tag-cat">Economía & Tienda</div>
-                            <h3 class="project-title">aCore Economy</h3>
-                            <p class="project-desc">Sistema de economía global multiseridor respaldado por Redis y MySQL con sincronización instantánea.</p>
-                            <div class="project-tech-stack">
-                                <span class="mini-badge">Java</span>
-                                <span class="mini-badge">Paper</span>
-                                <span class="mini-badge">Redis</span>
+                <!-- Project 1 with Gradient + 3D Comet Effect -->
+                <div class="comet-card-wrapper">
+                    <div class="gradient-card-wrapper">
+                        <div class="gradient-card-inner">
+                            <div>
+                                <div class="project-tag-cat">Economía & Tienda</div>
+                                <h3 class="project-title">aCore Economy</h3>
+                                <p class="project-desc">Sistema de economía global multiseridor respaldado por Redis y MySQL con sincronización instantánea.</p>
+                                <div class="project-tech-stack">
+                                    <span class="mini-badge">Java</span>
+                                    <span class="mini-badge">Paper</span>
+                                    <span class="mini-badge">Redis</span>
+                                </div>
                             </div>
+                            <a href="#" class="project-link">Ver detalles &rarr;</a>
                         </div>
-                        <a href="#" class="project-link">Ver detalles &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="gradient-card-wrapper">
-                    <div class="gradient-card-inner">
-                        <div>
-                            <div class="project-tag-cat">Bots & Integración</div>
-                            <h3 class="project-title">Discord Sync Bot</h3>
-                            <p class="project-desc">Sistema de verificación de usuarios, contador de invitaciones y vinculación de rangos automáticos.</p>
-                            <div class="project-tech-stack">
-                                <span class="mini-badge">Node.js</span>
-                                <span class="mini-badge">Discord.js</span>
-                                <span class="mini-badge">REST API</span>
+                <!-- Project 2 with Gradient + 3D Comet Effect -->
+                <div class="comet-card-wrapper">
+                    <div class="gradient-card-wrapper">
+                        <div class="gradient-card-inner">
+                            <div>
+                                <div class="project-tag-cat">Bots & Integración</div>
+                                <h3 class="project-title">Discord Sync Bot</h3>
+                                <p class="project-desc">Sistema de verificación de usuarios, contador de invitaciones y vinculación de rangos automáticos.</p>
+                                <div class="project-tech-stack">
+                                    <span class="mini-badge">Node.js</span>
+                                    <span class="mini-badge">Discord.js</span>
+                                    <span class="mini-badge">REST API</span>
+                                </div>
                             </div>
+                            <a href="#" class="project-link">Ver detalles &rarr;</a>
                         </div>
-                        <a href="#" class="project-link">Ver detalles &rarr;</a>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="gradient-card-wrapper">
-                    <div class="gradient-card-inner">
-                        <div>
-                            <div class="project-tag-cat">Seguridad & Chat</div>
-                            <h3 class="project-title">aGuard AntiSpam</h3>
-                            <p class="project-desc">Filtro inteligente de chat con detección de patrones mediante Expresiones Regulares y mitigación de flood.</p>
-                            <div class="project-tech-stack">
-                                <span class="mini-badge">Java</span>
-                                <span class="mini-badge">Regex</span>
-                                <span class="mini-badge">Velocity</span>
+                <!-- Project 3 with Gradient + 3D Comet Effect -->
+                <div class="comet-card-wrapper">
+                    <div class="gradient-card-wrapper">
+                        <div class="gradient-card-inner">
+                            <div>
+                                <div class="project-tag-cat">Seguridad & Chat</div>
+                                <h3 class="project-title">aGuard AntiSpam</h3>
+                                <p class="project-desc">Filtro inteligente de chat con detección de patrones mediante Expresiones Regulares y mitigación de flood.</p>
+                                <div class="project-tech-stack">
+                                    <span class="mini-badge">Java</span>
+                                    <span class="mini-badge">Regex</span>
+                                    <span class="mini-badge">Velocity</span>
+                                </div>
                             </div>
+                            <a href="#" class="project-link">Ver detalles &rarr;</a>
                         </div>
-                        <a href="#" class="project-link">Ver detalles &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -715,15 +746,15 @@
         </div>
     </footer>
 
-    <!-- SCRIPT FLIP WORDS ANIMATION -->
+    <!-- SCRIPTS INTERACTIVOS: FLIP WORDS & COMET 3D CARD -->
     <script>
-        function createFlipWords(elementId, words, intervalDuration = 2500) {
+        // --- 1. FLIP WORDS ANIMATION ---
+        function createFlipWords(elementId, words, intervalDuration = 2200) {
             const container = document.getElementById(elementId);
             if (!container) return;
 
             let currentIndex = 0;
             
-            // Render initial word spans
             words.forEach((word, index) => {
                 const span = document.createElement('span');
                 span.className = `flip-word ${index === 0 ? 'active' : ''}`;
@@ -738,21 +769,49 @@
                 currentIndex = (currentIndex + 1) % words.length;
                 const nextSpan = wordSpans[currentIndex];
 
-                // Exit animation for current
                 currentSpan.classList.remove('active');
                 currentSpan.classList.add('exit');
 
-                // Reset exit class after transition ends
                 setTimeout(() => {
                     currentSpan.classList.remove('exit');
                 }, 400);
 
-                // Enter animation for next
                 nextSpan.classList.add('active');
             }, intervalDuration);
         }
 
-        // Initialize Flip Words on page load
+        // --- 2. COMET 3D CARD INTERACTION ---
+        function initCometCards() {
+            const cards = document.querySelectorAll('.gradient-card-wrapper');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Rotación suave en X y Y
+                    const rotateX = ((y - centerY) / centerY) * -12;
+                    const rotateY = ((x - centerX) / centerX) * 12;
+
+                    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.boxShadow = `0 15px 35px rgba(225, 29, 72, 0.4)`;
+
+                    // Actualizar posición del destello de cometa
+                    card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                    card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    card.style.boxShadow = `0 10px 30px rgba(225, 29, 72, 0.2)`;
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             createFlipWords('hero-flip-words', [
                 'Java Cores',
@@ -761,6 +820,8 @@
                 'Discord Bots',
                 'Redis APIs'
             ], 2200);
+
+            initCometCards();
         });
     </script>
 
