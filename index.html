@@ -62,7 +62,46 @@
         }
 
         /* -------------------------------------------------------------
-           COMPONENTE BACKGROUND GRADIENT (Inspirado en Aceternity UI)
+           FLIP WORDS ANIMATION (ESTILO ACETERNITY UI)
+           ------------------------------------------------------------- */
+        .flip-words-container {
+            display: inline-block;
+            position: relative;
+            vertical-align: bottom;
+            min-width: 180px;
+            text-align: left;
+        }
+
+        .flip-word {
+            display: inline-block;
+            color: var(--ruby-glow);
+            text-shadow: 0 0 15px rgba(251, 113, 133, 0.6);
+            opacity: 0;
+            transform: translateY(12px) scale(0.95);
+            filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+        }
+
+        .flip-word.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+            position: relative;
+        }
+
+        .flip-word.exit {
+            opacity: 0;
+            transform: translateY(-12px) scale(0.95);
+            filter: blur(8px);
+            position: absolute;
+        }
+
+        /* -------------------------------------------------------------
+           COMPONENTE BACKGROUND GRADIENT
            ------------------------------------------------------------- */
         .gradient-card-wrapper {
             position: relative;
@@ -161,12 +200,15 @@
 
         .subtitle-tag {
             font-family: var(--font-code);
-            color: var(--ruby-glow);
-            font-size: 13px;
-            letter-spacing: 2px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 12px;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
 
         .hero h1 {
@@ -331,7 +373,7 @@
             color: var(--ruby-glow);
         }
 
-        /* PROJECTS GRID WITH BACKGROUND GRADIENT */
+        /* PROJECTS GRID */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -484,7 +526,15 @@
     <section class="hero">
         <div class="container">
             <div class="avatar-box">👾</div>
-            <span class="subtitle-tag">Minecraft • Developer • Systems</span>
+            
+            <!-- SUBTÍTULO CON FLIPPING WORDS ANIMATION -->
+            <div class="subtitle-tag">
+                Especialista en 
+                <span class="flip-words-container" id="hero-flip-words">
+                    <!-- Las palabras rotarán aquí vía JS -->
+                </span>
+            </div>
+
             <h1>EONIX_</h1>
             <p>Desarrollo de Plugins, Cores, Infraestructura de Redes y Bots de Discord a medida para servidores de alto rendimiento.</p>
             
@@ -558,7 +608,7 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Project 1 with Background Gradient effect -->
+                <!-- Project 1 -->
                 <div class="gradient-card-wrapper">
                     <div class="gradient-card-inner">
                         <div>
@@ -575,7 +625,7 @@
                     </div>
                 </div>
 
-                <!-- Project 2 with Background Gradient effect -->
+                <!-- Project 2 -->
                 <div class="gradient-card-wrapper">
                     <div class="gradient-card-inner">
                         <div>
@@ -592,7 +642,7 @@
                     </div>
                 </div>
 
-                <!-- Project 3 with Background Gradient effect -->
+                <!-- Project 3 -->
                 <div class="gradient-card-wrapper">
                     <div class="gradient-card-inner">
                         <div>
@@ -664,6 +714,55 @@
             <p class="copyright">© 2026 Eonix_. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <!-- SCRIPT FLIP WORDS ANIMATION -->
+    <script>
+        function createFlipWords(elementId, words, intervalDuration = 2500) {
+            const container = document.getElementById(elementId);
+            if (!container) return;
+
+            let currentIndex = 0;
+            
+            // Render initial word spans
+            words.forEach((word, index) => {
+                const span = document.createElement('span');
+                span.className = `flip-word ${index === 0 ? 'active' : ''}`;
+                span.textContent = word;
+                container.appendChild(span);
+            });
+
+            const wordSpans = container.querySelectorAll('.flip-word');
+
+            setInterval(() => {
+                const currentSpan = wordSpans[currentIndex];
+                currentIndex = (currentIndex + 1) % words.length;
+                const nextSpan = wordSpans[currentIndex];
+
+                // Exit animation for current
+                currentSpan.classList.remove('active');
+                currentSpan.classList.add('exit');
+
+                // Reset exit class after transition ends
+                setTimeout(() => {
+                    currentSpan.classList.remove('exit');
+                }, 400);
+
+                // Enter animation for next
+                nextSpan.classList.add('active');
+            }, intervalDuration);
+        }
+
+        // Initialize Flip Words on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            createFlipWords('hero-flip-words', [
+                'Java Cores',
+                'TypeScript',
+                'Paper / Spigot',
+                'Discord Bots',
+                'Redis APIs'
+            ], 2200);
+        });
+    </script>
 
 </body>
 </html>
