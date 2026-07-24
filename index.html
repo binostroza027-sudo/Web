@@ -338,7 +338,7 @@
             position: absolute;
         }
 
-        /* 3D COMET CARD CON BACKGROUND GRADIENT (SIN LUZ EXTERNA / SIN BOX-SHADOW) */
+        /* 3D COMET CARD CON BACKGROUND GRADIENT */
         .comet-card-wrapper { perspective: 1000px; }
 
         .gradient-card-wrapper {
@@ -348,7 +348,6 @@
             background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
             background-size: 300% 300%;
             animation: gradientBorder 6s ease infinite;
-            /* SE REMOVIÓ LA LUZ / BOX-SHADOW EXTERNO */
             box-shadow: none;
             transform-style: preserve-3d;
             transition: transform 0.15s cubic-bezier(0.2, 0, 0.4, 1);
@@ -632,7 +631,7 @@
             align-items: center; gap: 6px;
         }
 
-        /* NETWORKS / SERVIDORES CON GRADIENTE */
+        /* NETWORKS / SERVIDORES CON GRADIENTE Y LOGOS CORREGIDOS */
         .networks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -646,6 +645,14 @@
             display: flex; align-items: center;
             justify-content: space-between;
             height: 100%;
+        }
+
+        .server-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
         .network-info h4 {
@@ -698,6 +705,15 @@
         .copyright {
             font-family: var(--font-code);
             font-size: 11px; color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .top-bar { left: 0; }
+            .main-wrapper { margin-left: 0; width: 100%; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.expanded { transform: translateX(0); }
         }
     </style>
 </head>
@@ -785,7 +801,7 @@
                     <a href="#contact" class="btn btn-secondary" data-i18n="btn-contact">Contactar</a>
                 </div>
 
-                <!-- MÉTRICAS ACTUALIZADAS: 3 SERVIDORES, 3 PLUGINS, 6 AÑOS -->
+                <!-- MÉTRICAS: 3 SERVIDORES, 3 PLUGINS, 6 AÑOS -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-number">3</div>
@@ -914,7 +930,7 @@
             </div>
         </section>
 
-        <!-- NETWORKS SECTION CON LOGOS AGRANDADOS -->
+        <!-- NETWORKS SECTION CON LOGOS ORDENADOS 1.png, 2.png, 3.png -->
         <section id="networks">
             <div class="container">
                 <div class="section-header">
@@ -927,7 +943,7 @@
                     <div class="gradient-wrapper-card">
                         <div class="network-card-inner">
                             <div class="network-info" style="display: flex; align-items: center; gap: 14px;">
-                                <img src="2.png" alt="Aetdra Network Logo" class="server-logo">
+                                <img src="1.png" alt="Aetdra Network Logo" class="server-logo">
                                 <div>
                                     <h4>Aetdra Network</h4>
                                     <p>play.aetdramc.net</p>
@@ -941,7 +957,7 @@
                     <div class="gradient-wrapper-card">
                         <div class="network-card-inner">
                             <div class="network-info" style="display: flex; align-items: center; gap: 14px;">
-                                <img src="1.png" alt="ClarityMC Logo" class="server-logo">
+                                <img src="2.png" alt="ClarityMC Logo" class="server-logo">
                                 <div>
                                     <h4>ClarityMC</h4>
                                     <p>play.claritymc.net</p>
@@ -1004,7 +1020,7 @@
                 "stat-plugins": "Plugins Custom",
                 "stat-years": "Años Exp.",
                 "title-about": "Sobre Mí",
-                "about-p1": "Soy Eonix_ — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.",
+                "about-p1": "Soy <strong>Eonix_</strong> — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.",
                 "about-p2": "Enfocado en la estabilidad de red, alto TPS y lógica de juego fluida para comunidades masivas en LATAM e Hispanoamérica.",
                 "term-status": "Disponible para encargos",
                 "title-projects": "Proyectos",
@@ -1014,7 +1030,7 @@
                 "p2-desc": "Sistema de verificación de usuarios, contador de invitaciones y vinculación de rangos automáticos.",
                 "p3-cat": "Seguridad & Chat",
                 "p3-desc": "Filtro inteligente de chat con detección de patrones mediante Expresiones Regulares y mitigación de flood.",
-                "btn-details": "Ver detalles →",
+                "btn-details": "Ver detalles &rarr;",
                 "title-networks": "Redes Soportadas",
                 "contact-title": "¿Tienes un proyecto?",
                 "contact-desc": "Desarrollo de plugins, optimización de infraestructura o bots personalizados. Conversemos.",
@@ -1033,7 +1049,7 @@
                 "stat-plugins": "Custom Plugins",
                 "stat-years": "Years Exp.",
                 "title-about": "About Me",
-                "about-p1": "I am Eonix_ — a developer specialized in creating and optimizing Minecraft server architecture, Node.js/Python backends, and custom API integrations.",
+                "about-p1": "I am <strong>Eonix_</strong> — a developer specialized in creating and optimizing Minecraft server architecture, Node.js/Python backends, and custom API integrations.",
                 "about-p2": "Focused on network stability, high TPS, and smooth gameplay mechanics for large gaming communities.",
                 "term-status": "Available for commission",
                 "title-projects": "Projects",
@@ -1043,7 +1059,7 @@
                 "p2-desc": "User verification system, invite tracker, and automatic rank synchronization bot.",
                 "p3-cat": "Security & Chat",
                 "p3-desc": "Smart chat filter with regex-based pattern detection and anti-flood mitigation.",
-                "btn-details": "View details →",
+                "btn-details": "View details &rarr;",
                 "title-networks": "Supported Networks",
                 "contact-title": "Have a project in mind?",
                 "contact-desc": "Custom plugins, infrastructure optimization, or Discord bots. Let's talk.",
@@ -1070,6 +1086,7 @@
             const container = document.getElementById(elementId);
             if (!container) return;
 
+            container.innerHTML = '';
             let currentIndex = 0;
             
             words.forEach((word, index) => {
