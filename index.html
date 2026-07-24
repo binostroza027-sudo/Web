@@ -61,14 +61,34 @@
         }
 
         /* -------------------------------------------------------------
-           HEADER SUPERIOR CON SWITCH DE IDIOMA
+           BACKGROUND GRADIENT ANIMADO (REUTILIZABLE)
+           ------------------------------------------------------------- */
+        .gradient-wrapper {
+            position: relative;
+            border-radius: var(--radius-sm);
+            padding: 2px;
+            background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
+            background-size: 300% 300%;
+            animation: gradientBorder 6s ease infinite;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
+            display: inline-block;
+        }
+
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* -------------------------------------------------------------
+           HEADER SUPERIOR CON BOTÓN TRADUCTOR GRADIENT
            ------------------------------------------------------------- */
         .top-bar {
             position: fixed;
             top: 0;
             right: 0;
             left: var(--sidebar-width-collapsed);
-            height: 60px;
+            height: 70px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -82,20 +102,22 @@
             font-family: var(--font-code);
             font-size: 12px;
             font-weight: 600;
-            padding: 8px 16px;
-            background: var(--bg-surface);
-            border: 1px solid var(--ruby-primary);
+            padding: 8px 18px;
+            background: var(--bg-card);
+            border: none;
             color: var(--text-primary);
-            border-radius: var(--radius-sm);
+            border-radius: calc(var(--radius-sm) - 1px);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(225, 29, 72, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .lang-switch-btn:hover {
-            background: var(--ruby-primary);
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(225, 29, 72, 0.5);
+        .gradient-wrapper:hover .lang-switch-btn {
+            background: var(--bg-surface);
+            color: var(--ruby-glow);
+            box-shadow: inset 0 0 10px rgba(225, 29, 72, 0.3);
         }
 
         /* -------------------------------------------------------------
@@ -259,7 +281,7 @@
            ------------------------------------------------------------- */
         .main-wrapper {
             margin-left: var(--sidebar-width-collapsed);
-            margin-top: 60px;
+            margin-top: 70px;
             flex-grow: 1;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: calc(100% - var(--sidebar-width-collapsed));
@@ -307,7 +329,7 @@
             position: absolute;
         }
 
-        /* BACKGROUND GRADIENT & 3D COMET CARD */
+        /* 3D COMET CARD CON BACKGROUND GRADIENT */
         .comet-card-wrapper { perspective: 1000px; }
 
         .gradient-card-wrapper {
@@ -337,12 +359,6 @@
         }
 
         .gradient-card-wrapper:hover::after { opacity: 1; }
-
-        @keyframes gradientBorder {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
 
         .gradient-card-inner {
             background-color: var(--bg-card);
@@ -671,9 +687,13 @@
 </head>
 <body>
 
-    <!-- TOP BAR CON SWITCH DE IDIOMA -->
+    <!-- TOP BAR CON BOTÓN SWITCH DE IDIOMA GRADIENTE -->
     <div class="top-bar">
-        <button class="lang-switch-btn" id="langToggleBtn" onclick="toggleLanguage()">🌐 ES / EN</button>
+        <div class="gradient-wrapper">
+            <button class="lang-switch-btn" id="langToggleBtn" onclick="toggleLanguage()">
+                🌐 ES / EN
+            </button>
+        </div>
     </div>
 
     <!-- SIDEBAR COLAPSABLE -->
@@ -681,8 +701,7 @@
         <div>
             <a href="#" class="sidebar-brand">
                 <div class="brand-icon-box">
-                    <!-- AQUÍ COLOCAS LA RUTA DE TU LOGO EN EL SIDEBAR -->
-                    <img src="https://assets.aceternity.com/manu.png" alt="Logo Eonix">
+                    <img src="logo.png" alt="Logo Eonix">
                 </div>
                 <span class="brand-text">EONIX_</span>
             </a>
@@ -719,8 +738,7 @@
         </div>
 
         <div class="sidebar-profile">
-            <!-- AQUÍ PUEDES USAR LA MISMA OTRA IMAGEN PARA EL PERFIL -->
-            <img src="https://assets.aceternity.com/manu.png" alt="Eonix Avatar" class="profile-avatar">
+            <img src="logo.png" alt="Eonix Avatar" class="profile-avatar">
             <div class="profile-info">
                 <span class="profile-name">Eonix_</span>
                 <span class="profile-role">Systems Dev</span>
@@ -734,9 +752,8 @@
         <!-- HERO -->
         <section class="hero">
             <div class="container">
-                <!-- LOGO / FOTO PRINCIPAL CENTRAL -->
                 <div class="avatar-box">
-                    <img src="https://assets.aceternity.com/manu.png" alt="Eonix Logo">
+                    <img src="logo.png" alt="Eonix Logo">
                 </div>
                 
                 <div class="subtitle-tag">
@@ -929,9 +946,9 @@
 
     </div>
 
-    <!-- SCRIPTS INTERACTIVOS & DICCIONARIO DE TRADUCCIÓN -->
+    <!-- SCRIPTS INTERACTIVOS -->
     <script>
-        // --- 1. DICCIONARIO DE TRADUCCIÓN (ES PAÑOL / EN GLISH) ---
+        // --- 1. DICCIONARIO DE TRADUCCIÓN ---
         const translations = {
             es: {
                 "nav-about": "Sobre Mí",
