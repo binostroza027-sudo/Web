@@ -70,8 +70,17 @@
             background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
             background-size: 300% 300%;
             animation: gradientBorder 6s ease infinite;
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
             display: inline-block;
+        }
+
+        .gradient-wrapper-card {
+            position: relative;
+            border-radius: var(--radius-md);
+            padding: 2px;
+            background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
+            background-size: 300% 300%;
+            animation: gradientBorder 6s ease infinite;
+            width: 100%;
         }
 
         @keyframes gradientBorder {
@@ -329,7 +338,7 @@
             position: absolute;
         }
 
-        /* 3D COMET CARD CON BACKGROUND GRADIENT */
+        /* 3D COMET CARD CON BACKGROUND GRADIENT (SIN LUZ EXTERNA / SIN BOX-SHADOW) */
         .comet-card-wrapper { perspective: 1000px; }
 
         .gradient-card-wrapper {
@@ -339,9 +348,10 @@
             background: linear-gradient(115deg, #e11d48, #881337, #38bdf8, #f43f5e);
             background-size: 300% 300%;
             animation: gradientBorder 6s ease infinite;
-            box-shadow: 0 10px 30px rgba(225, 29, 72, 0.2);
+            /* SE REMOVIÓ LA LUZ / BOX-SHADOW EXTERNO */
+            box-shadow: none;
             transform-style: preserve-3d;
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0.4, 1), box-shadow 0.3s ease;
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.4, 1);
             cursor: pointer;
             overflow: hidden;
         }
@@ -512,7 +522,7 @@
             display: inline-block;
         }
 
-        /* ABOUT & TERMINAL */
+        /* ABOUT GRID CON GRADIENTE */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
@@ -520,14 +530,20 @@
             align-items: center;
         }
 
+        .about-inner-box {
+            background: var(--bg-deep);
+            border-radius: calc(var(--radius-md) - 2px);
+            padding: 28px;
+            height: 100%;
+        }
+
         .terminal-box {
             background-color: #0d0407;
-            border: 1px solid var(--bg-card-border);
-            border-radius: var(--radius-md);
+            border-radius: calc(var(--radius-md) - 2px);
             padding: 24px;
             font-family: var(--font-code);
             font-size: 13px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            height: 100%;
         }
 
         .terminal-header {
@@ -616,20 +632,20 @@
             align-items: center; gap: 6px;
         }
 
-        /* NETWORKS */
+        /* NETWORKS / SERVIDORES CON GRADIENTE */
         .networks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 16px;
+            gap: 20px;
         }
 
-        .network-card {
+        .network-card-inner {
             background: var(--bg-surface);
-            border: 1px solid var(--bg-card-border);
             padding: 16px 20px;
-            border-radius: var(--radius-md);
+            border-radius: calc(var(--radius-md) - 2px);
             display: flex; align-items: center;
             justify-content: space-between;
+            height: 100%;
         }
 
         .network-info h4 {
@@ -769,24 +785,25 @@
                     <a href="#contact" class="btn btn-secondary" data-i18n="btn-contact">Contactar</a>
                 </div>
 
+                <!-- MÉTRICAS ACTUALIZADAS: 3 SERVIDORES, 3 PLUGINS, 6 AÑOS -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">60+</div>
+                        <div class="stat-number">3</div>
                         <div class="stat-label" data-i18n="stat-servers">Servidores</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">100+</div>
+                        <div class="stat-number">3</div>
                         <div class="stat-label" data-i18n="stat-plugins">Plugins Custom</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">5+</div>
+                        <div class="stat-number">6</div>
                         <div class="stat-label" data-i18n="stat-years">Años Exp.</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ABOUT SECTION -->
+        <!-- ABOUT SECTION CON GRADIENTE EN AMBOS RECUADROS -->
         <section id="about">
             <div class="container">
                 <div class="section-header">
@@ -795,37 +812,43 @@
                 </div>
                 
                 <div class="about-grid">
-                    <div class="about-text">
-                        <p data-i18n="about-p1">Soy <strong>Eonix_</strong> — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.</p>
-                        <p style="margin-top: 12px;" data-i18n="about-p2">Enfocado en la estabilidad de red, alto TPS y lógica de juego fluida para comunidades masivas en LATAM e Hispanoamérica.</p>
-                        
-                        <div class="tech-tags">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Paper / Spigot</span>
-                            <span class="tech-tag">Velocity</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">MySQL / Redis</span>
+                    <!-- Recuadro Texto "Sobre Mí" con Borde Gradiente -->
+                    <div class="gradient-wrapper-card">
+                        <div class="about-inner-box">
+                            <p data-i18n="about-p1">Soy <strong>Eonix_</strong> — desarrollador especializado en la creación y optimización de arquitectura de servidores Minecraft, backend en Node.js, Python e integración de APIs personalizadas.</p>
+                            <p style="margin-top: 12px;" data-i18n="about-p2">Enfocado en la estabilidad de red, alto TPS y lógica de juego fluida para comunidades masivas en LATAM e Hispanoamérica.</p>
+                            
+                            <div class="tech-tags">
+                                <span class="tech-tag">Java</span>
+                                <span class="tech-tag">Paper / Spigot</span>
+                                <span class="tech-tag">Velocity</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">MySQL / Redis</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="terminal-box">
-                        <div class="terminal-header">
-                            <div class="dot dot-red"></div>
-                            <div class="dot dot-yellow"></div>
-                            <div class="dot dot-green"></div>
+                    <!-- Terminal de Comandos con Borde Gradiente -->
+                    <div class="gradient-wrapper-card">
+                        <div class="terminal-box">
+                            <div class="terminal-header">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <div class="terminal-prompt">> system.getProfile()</div>
+                            <div class="terminal-line"><span class="terminal-key">name</span><span class="terminal-val">: Eonix_</span></div>
+                            <div class="terminal-line"><span class="terminal-key">role</span><span class="terminal-val">: Full-Stack & MC Dev</span></div>
+                            <div class="terminal-line"><span class="terminal-key">stack</span><span class="terminal-val">: Java • Node • SQL • Redis</span></div>
+                            <div class="terminal-line"><span class="terminal-key">status</span><span class="terminal-val"><span class="status-badge"><span class="status-dot"></span> <span data-i18n="term-status">Disponible para encargos</span></span></span></div>
                         </div>
-                        <div class="terminal-prompt">> system.getProfile()</div>
-                        <div class="terminal-line"><span class="terminal-key">name</span><span class="terminal-val">: Eonix_</span></div>
-                        <div class="terminal-line"><span class="terminal-key">role</span><span class="terminal-val">: Full-Stack & MC Dev</span></div>
-                        <div class="terminal-line"><span class="terminal-key">stack</span><span class="terminal-val">: Java • Node • SQL • Redis</span></div>
-                        <div class="terminal-line"><span class="terminal-key">status</span><span class="terminal-val"><span class="status-badge"><span class="status-dot"></span> <span data-i18n="term-status">Disponible para encargos</span></span></span></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROJECTS SECTION -->
+        <!-- PROJECTS SECTION (SIN LUZ DE RESPLANDOR EXTERNO) -->
         <section id="projects">
             <div class="container">
                 <div class="section-header">
@@ -891,7 +914,7 @@
             </div>
         </section>
 
-        <!-- NETWORKS SECTION -->
+        <!-- NETWORKS SECTION CON GRADIENTE EN CADA TARJETA Y ACTUALIZACIÓN A HEALTHYMC -->
         <section id="networks">
             <div class="container">
                 <div class="section-header">
@@ -900,28 +923,35 @@
                 </div>
 
                 <div class="networks-grid">
-                    <div class="network-card">
-                        <div class="network-info">
-                            <h4>Aetdra Network</h4>
-                            <p>play.aetdramc.net</p>
+                    <div class="gradient-wrapper-card">
+                        <div class="network-card-inner">
+                            <div class="network-info">
+                                <h4>Aetdra Network</h4>
+                                <p>play.aetdramc.net</p>
+                            </div>
+                            <span class="ping-badge ping-online">● ONLINE</span>
                         </div>
-                        <span class="ping-badge ping-online">● ONLINE</span>
                     </div>
 
-                    <div class="network-card">
-                        <div class="network-info">
-                            <h4>ClarityMC</h4>
-                            <p>play.claritymc.net</p>
+                    <div class="gradient-wrapper-card">
+                        <div class="network-card-inner">
+                            <div class="network-info">
+                                <h4>ClarityMC</h4>
+                                <p>play.claritymc.net</p>
+                            </div>
+                            <span class="ping-badge ping-online">● ONLINE</span>
                         </div>
-                        <span class="ping-badge ping-online">● ONLINE</span>
                     </div>
 
-                    <div class="network-card">
-                        <div class="network-info">
-                            <h4>Aetdra Survival</h4>
-                            <p>survival.aetdramc.net</p>
+                    <!-- NUEVA RED: HEALTHYMC -->
+                    <div class="gradient-wrapper-card">
+                        <div class="network-card-inner">
+                            <div class="network-info">
+                                <h4>HealtyMC</h4>
+                                <p>play.healtymc.live</p>
+                            </div>
+                            <span class="ping-badge ping-online">● ONLINE</span>
                         </div>
-                        <span class="ping-badge ping-offline">○ OFFLINE</span>
                     </div>
                 </div>
             </div>
@@ -1056,7 +1086,7 @@
             }, intervalDuration);
         }
 
-        // --- 3. COMET 3D CARD INTERACTION ---
+        // --- 3. COMET 3D CARD INTERACTION (SIN RESPLANDOR EXTERNO) ---
         function initCometCards() {
             const cards = document.querySelectorAll('.gradient-card-wrapper');
 
@@ -1073,7 +1103,6 @@
                     const rotateY = ((x - centerX) / centerX) * 12;
 
                     card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                    card.style.boxShadow = `0 15px 35px rgba(225, 29, 72, 0.4)`;
 
                     card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
                     card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
@@ -1081,7 +1110,6 @@
 
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                    card.style.boxShadow = `0 10px 30px rgba(225, 29, 72, 0.2)`;
                 });
             });
         }
